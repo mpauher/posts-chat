@@ -66,8 +66,10 @@ Route::group([
             'prefix' => 'chats'
         ], function () {
             Route::get('/', [ChatController::class, 'index']);
-            // Route::get('/{id}', [ServiceController::class, 'show']);
+            Route::get('/{id}', [ChatController::class, 'chat']);
+            Route::get('/quantity/{id}', [ChatController::class, 'quantityMessage']);
             Route::post('/{id}', [ChatController::class, 'create']);
+            Route::post('/add/{id}', [ChatController::class, 'addMessage']);
             // Route::put('/{id}', [ServiceController::class, 'update']);
             // Route::delete('/{id}', [ServiceController::class, 'destroy']);
         });

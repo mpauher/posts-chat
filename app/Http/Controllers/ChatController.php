@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Chat;
 use App\Models\Service;
 use App\Models\UserChat;
+use App\Models\Message;
+
+use Carbon\Carbon;
 
 class ChatController extends Controller
 {
@@ -39,7 +42,7 @@ class ChatController extends Controller
             ]);
 
             $chat_id = $chat->id;
-            
+
             $user_chat = UserChat::create([
                 'user_id' => $user_id,
                 'chat_id' => $chat_id
@@ -55,4 +58,78 @@ class ChatController extends Controller
             ], 400);
         }
     }
+
+    public function chat($id){
+        try{
+            $chat = Message::where('chat_id',$id)->get();
+
+            if(!$chat){
+                return response()->json([
+                    'error'=>'Chat has not messages'
+                ],404);
+            }
+
+            return response()->json([
+                'chat' => $chat
+            ],200);
+
+        }catch (\Exception $e){
+            return response()->json([
+                'error' => $e->getMessage()
+            ],400);
+        }
+    }
+
+    public function addMessage($id, Request $request){
+        try {
+
+            $date = Carbon::now();
+            $chat_id=$id;
+            $user_id=auth()->user()->id;
+
+            $request->validate([
+                'text'=>'required|string',
+            ]);
+            
+            $message = Message::create([
+                'date'=>$date,
+                'text'=>$request->text,
+                'chat_id'=>$chat_id,
+                'user_id'=>$user_id
+            ]);
+
+            return response()->json([
+                'message' => 'Message add successfully'
+            ],200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage
+            ],400);
+        }
+    }
+
+    public function quantityMessage($id){
+        try{
+            $chat = Message::where('chat_id',$id)->get();
+            $quantity = $chat->count();
+
+            if(!$quantity){
+                return response()->json([
+                    'error'=>'Chat has not messages'
+                ],404);
+            }
+
+            return response()->json([
+                'quantity' => $quantity
+            ],200);
+
+        }catch (\Exception $e){
+            return response()->json([
+                'error' => $e->getMessage()
+            ],400);
+        }
+    }
+
+
 }
