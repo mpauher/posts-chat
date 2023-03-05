@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ServiceController;
-
+use App\Http\Controllers\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,17 +61,16 @@ Route::group([
         Route::delete('/{id}', [ServiceController::class, 'destroy']);
     });
 
-    //Orders
-    // Route::group([
-    //     'prefix' => 'orders'
-    // ], function () {
-    //     Route::get('/', [OrderController::class, 'index']);
-    //     Route::get('/{id}', [OrderController::class, 'show']);
-    //     Route::post('/', [OrderController::class, 'create']);
-    //     Route::put('/{id}', [OrderController::class, 'update']);
-    //     Route::delete('/{id}', [OrderController::class, 'destroy']);
-    //     Route::get('/invoice/{id}', [OrderController::class, 'invoice']);
-    // });
+        //Chats
+        Route::group([
+            'prefix' => 'chats'
+        ], function () {
+            Route::get('/', [ChatController::class, 'index']);
+            // Route::get('/{id}', [ServiceController::class, 'show']);
+            Route::post('/{id}', [ChatController::class, 'create']);
+            // Route::put('/{id}', [ServiceController::class, 'update']);
+            // Route::delete('/{id}', [ServiceController::class, 'destroy']);
+        });
 
 
 });
