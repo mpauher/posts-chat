@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ServiceController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +50,17 @@ Route::group([
         Route::delete('/{id}', [UserController::class, 'destroy']);
     });
 
+    //Services
+    Route::group([
+        'prefix' => 'services'
+    ], function () {
+        Route::get('/', [ServiceController::class, 'index']);
+        Route::get('/{id}', [ServiceController::class, 'show']);
+        Route::post('/', [ServiceController::class, 'create']);
+        Route::put('/{id}', [ServiceController::class, 'update']);
+        Route::delete('/{id}', [ServiceController::class, 'destroy']);
+    });
+
     //Orders
     // Route::group([
     //     'prefix' => 'orders'
@@ -60,14 +73,5 @@ Route::group([
     //     Route::get('/invoice/{id}', [OrderController::class, 'invoice']);
     // });
 
-    //Products
-    // Route::group([
-    //     'prefix' => 'products'
-    // ], function () {
-    //     Route::get('/', [ProductController::class, 'index']);
-    //     Route::get('/{id}', [ProductController::class, 'show']);
-    //     Route::post('/', [ProductController::class, 'create']);
-    //     Route::put('/{id}', [ProductController::class, 'update']);
-    //     Route::delete('/{id}', [ProductController::class, 'destroy']);
-    // });
+
 });
